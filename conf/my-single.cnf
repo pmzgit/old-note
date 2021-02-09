@@ -1,0 +1,27 @@
+[client]
+port = 3306
+socket = /home/pmz/mysql/run/mysql.sock
+
+[mysqld]
+basedir = /home/pmz/mysql
+datadir = /home/pmz/mysql/data
+port = 3306
+socket = /home/pmz/mysql/run/mysql.sock
+pid-file = /home/pmz/mysql/run/mysql.pid
+default-storage-engine = InnoDB
+log-error = /home/pmz/mysql/log/error.log
+
+
+character-set-server=utf8
+
+slow_query_log=1
+long_query_time=10 # 设置默认超过时间记录慢查询日志
+log-queries-not-using-indexes  = 1 # 未使用索引的查询语句是否记录
+#slow-query-log-file = /home/pmz/mysql/data/mysql-slow.log
+
+
+skip-name-resolve
+sysdate-is-now                 = 1
+innodb = FORCE
+
+#teW8A-%K62nl

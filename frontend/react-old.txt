@@ -1,0 +1,988 @@
+简介
+React是Facebook开源的一个用于构建用户界面的Javascript库，已经 应用于Facebook及旗下Instagram。
+
+和庞大的AngularJS不同，React专注于MVC架构中的V，即视图。 这使得React很容易和开发者已有的开发栈进行融合。
+
+React顺应了Web开发组件化的趋势。应用React时，你总是应该从UI出发抽象出不同 的组件，然后像搭积木一样把它们拼装起来：
+
+不过，React定义组件的方式和AngularJS截然不同。如果说HTML是一个轮子，AngularJS 的指令/Directive则是给这个轮子镶了个金边，而React，重新造了个轮子： JSX。
+
+React抛弃HTML另起炉灶的原因之一是性能的考虑：DOM操作非常之慢。React引入了 虚拟DOM的概念：开发者操作虚拟DOM，React在必要的时候将它们渲染到真正的 DOM上 —— 有点像游戏开发中的双缓冲区/Double Buffer帧重绘。
+
+引入虚拟DOM的另一个好处是，容易引入不同的渲染引擎。比如将你的应用代码渲染 到真实的DOM，或者nodejs服务端的无头DOM，或者，iOS/Android平台组件 —— 这就是 React Native ：
+
+facebook 需要解决问题：构建数据不断变化的大型应用     
+
+数据变化引发两个问题1、大量dom操作（react解决，自动dom操作，特点声明式）2、逻辑极其复杂（react解决：状态对应内容）
+
+React的核心是组件，组件的设计目的是提高代码复用率、降低测试难度和代码复杂度。
+提高代码复用率：组件将数据和逻辑封装，类似面向对象中的类。
+降低测试难度：组件高内聚低耦合，很容易对单个组件进行测试。
+降低代码复杂度：直观的语法可以极大提高可读性。
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+	<img src="img/0003.png">
+</body>
+</html>
+
+
+Hello React!
+和AngularJS相比，上手React简单到让人震惊。
+
+在引入React库之后，开发API就通过React对象暴露出来了。我们要做的、能做的，就是：
+
+在虚拟DOM上创建元素，然后将它们渲染到真实DOM上。
+
+在示例代码中使用了React对象的两个方法：
+
+createElement(type,[props],[children...]) - 在虚拟DOM上创建指定的React元素
+参数type用来指定要创建的元素类型，可以是一个字符串或一个React组件类型。当使用 字符串时，这个参数应当是标准的HTML标签名称，比如：p、div、canvas等等。
+
+参数props是可选的JSON对象，用来指定元素的附加属性，比如样式、CSS类等等。 我们在示例中简单的设置为null。
+
+从第三个参数children开始的所有参数，都被认为是这个元素的子元素。考虑到 虚拟DOM好歹也是DOM，容易理解React需要通过这些子元素参数，让我们可以构造虚拟DOM树：
+
+var el = React.createElement(
+    "ul",
+    null,
+    React.createElement("li",null,"China"),
+    React.createElement("li",null,"Japan"),
+    React.createElement("li",null,"Korea")
+);
+上面的例子在虚拟DOM中创建了一个具有三个li子元素的ul元素，看起来有点累。不过 想想，造一个轮子，总会付出一些代价的。
+
+在示例中，我们简单地传入了一个文本子元素作为p元素的内容。
+
+render(element,container,[callback]) - 将虚拟DOM上的对象渲染到真实DOM上
+参数element是我们使用createElement()方法创建的React元素，注意，不是HTML元素！
+
+参数container是真实DOM中的HTML元素，作为渲染的目标容器，它的内容将被render()方法 的执行改变。
+
+callback参数是可选的函数，当渲染完成或更新后被执行，通常我们不用它。
+
+修改示例代码，创建一个ul列表！
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Hello React!</title>
+	<!--1.引入React库-->
+	<script src="lib/react.min.js"></script>
+	<style>
+		p{font:italic bold 50px verdana;}
+	</style>
+</head>
+<body>
+	<!--2.在真实DOM上定义容器-->
+	<div id="content"></div>
+	<script>
+	
+		//3.在虚拟DOM上创建p元素
+		var el = React.createElement("p",null,"Hello React!");
+	
+		//4.将虚拟DOM上的p元素渲染到真实DOM上的#content容器
+		React.render(el,document.querySelector("#content"));
+	</script>
+</body>
+</html>
+
+
+虚拟DOM
+虚拟DOM是React的基石。
+
+之所以引入虚拟DOM，一方面是性能的考虑。Web应用和网站不同，一个Web应用 中通常会在单页内有大量的DOM操作，而这些DOM操作很慢。
+
+在React中，应用程序在虚拟DOM上操作，这让React有了优化的机会。简单说， React在每次需要渲染时，会先比较当前DOM内容和待渲染内容的差异， 然后再决定如何最优地更新DOM。这个过程被称为reconciliation。
+
+除了性能的考虑，React引入虚拟DOM更重要的意义是提供了一种一致的开发方 式来开发服务端应用、Web应用和手机端应用：
+
+VDOM
+
+因为有了虚拟DOM这一层，所以通过配备不同的渲染器，就可以将虚拟DOM的内容 渲染到不同的平台。而应用开发者，使用JavaScript就可以通吃各个平台了。
+
+相当棒的思路！
+
+将示例代码的功能，不使用虚拟DOM来实现，比较下差异！
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Virtual DOM</title>
+	<script src="lib/react.min.js"></script>
+	<style>
+		p{font:italic bold 50px verdana;}
+	</style>
+</head>
+<body>
+	<div id="content"></div>
+	<script>
+		//获取初始时间
+		var t0 = new Date().getTime();
+		
+		//16ms定时器
+		setInterval(function(){
+			//获取当前时间，计算已运行时长
+			var  t = new Date().getTime(),
+				 delta = t - t0;
+			
+			//在虚拟DOM上创建元素
+			var el = React.createElement("p",null,delta);
+		
+			//渲染到真实DOM
+			React.render(el,document.querySelector("#content"));
+		},16);
+	</script>
+</body>
+</html>
+
+
+React组件
+在React中定义一个组件也是相当的容易，组件就是一个 实现预定义接口的JavaScript类：
+
+React.createClass(meta)
+参数meta是一个实现预定义接口的JavaScript对象，用来 对React组件原型进行扩展。
+
+在meta中，至少需要实现一个render()方法，而这个方法， 必须而且只能返回一个有效的React元素。
+
+这意味着，如果你的组件是由多个元素构成的，那么你必须在外边包一个顶层 元素，然后返回这个顶层元素。比如我们创建一个布局组件：
+
+render:function(){
+    return React.createElement(
+        "div",null,
+        React.createElement("div",null,"header"),
+        React.createElement("div",null,"content"),
+        React.createElement("div",null,"footer")
+    );
+}
+注意 ：你的React组件名称的首字母应当大写， 关于大小写的差异你会在后面发现。
+
+在示例代码中，我们实现了一个液晶显示组件EzLedComp（为了更逼真一些， 定义了简单的样式，别忘了翻看一下），你应该会注意到div元素的样式类是用 className而不是class声明的，这是因为class 是JavaScript的保留字，渲染后，真实的DOM还会是：
+
+<div class="ez-led">Hello, React!</div>
+组件定义以后，和标准HTML标签一样，可以使用createElement()方法 创建元素，只是这时，第一个参数是我们定义的组件类，而不是标签名字符串：
+
+React.createElement(EzLedComp);
+修改示例代码，定义一个两排字的液晶显示组件！
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>LED Display</title>
+	<script src="lib/react.min.js"></script>
+	<!--组件样式-->
+	<style>
+		@font-face {
+			font-family:"LED";
+			src:url("font/LED.eot?") format("eot"),
+				url("font/LED.woff") format("woff"),
+				url("font/LED.ttf") format("truetype"),
+				url("font/LED.svg#LED") format("svg");
+			font-weight:normal;
+			font-style:normal;
+		}
+		.ez-led{
+			font-family : "LED";
+			font-size : 40px;
+			background : #70d355;
+			width: 300px;
+			height:60px;
+			line-height : 60px;
+			text-align : right;
+			padding : 10px;
+			letter-spacing:5px;
+		}
+	</style>
+</head>
+<body>
+	<!--定义容器-->
+	<div id="content"></div>
+	<script>
+	//定义React组件
+	var EzLedComp = React.createClass({
+		//每个React组件都应该事先render()方法
+		render : function(){
+			var e = React.createElement(
+				"div",
+				{className : "ez-led"},
+				"Hello, React!"
+			);
+			//render()方法应该返回一个React元素
+			return e;
+		}
+	});
+	//创建React元素
+	var el = React.createElement(EzLedComp);
+	//渲染
+	React.render(el,document.querySelector("#content"));
+	</script>
+</body>
+</html>
+
+
+
+轮子来了：JSX
+React引入虚拟DOM以后，创建DOM树得在JavaScript里写代码，这使得界面定义 变得相当繁琐。比如我们创建两排的液晶组件得这么写：
+
+render: function(){
+    return React.createElement(
+        "div",null,
+        React.createElement("div",{className:"ez-led"},"Hello, React!"),
+        React.createElement("div",{className:"ez-led"},"2015-04-15")
+    );
+}
+而它们被渲染后对应的声明式HTML则简单明了：
+
+<div>
+    <div class="ez-led">Hello, React!</div>
+    <div class="ez-led">2015-04-15</div>
+</div>
+这还只是两层的树，要是需要一棵大树呢？
+
+heartbreak
+
+填一个坑，需要挖另一个坑。于是，JSX来了。
+
+JSX是对JavaScript语法的扩展，它让我们可以在JavaScript代码中以类似HTML 的方式创建React元素。简单的说，每当你需要使用createElement()时， 就把这个函数调用部分用渲染目标HTML替换（提醒下，不完全一致，比如class属性 要用className代替）：
+
+//JavaScript
+var e = React.createElement(
+        "ul",null,
+        React.createElement("li",null,"China"),
+        React.createElement("li",null,"Japan"),
+    );
+//JSX = JavaScript + XML like extension
+var e = <ul>
+            <li>China</li>
+            <li>Japan</li>
+        </ul>;
+说实话，这种写法让代码看起来相当闹心。但相比写大段的脚本来创建DOM树， 这至少效率高吧。好在，React不强制使用JSX，如果你是强迫症患者， 确实感觉到不舒服，那么，可以不用它。
+
+将示例代码中的双排液晶显示组件改成三排！
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>LED Display-in JSX</title>
+	<!--引入React库-->
+	<script src="lib/react.min.js"></script>
+	<!--引入JSX转换库-->
+	<script src="lib/JSXTransformer.js"></script>
+	<!--组件样式-->
+	<style>
+		@font-face {
+			font-family:"LED";
+			src:url("font/LED.eot?") format("eot"),
+				url("font/LED.woff") format("woff"),
+				url("font/LED.ttf") format("truetype"),
+				url("font/LED.svg#LED") format("svg");
+			font-weight:normal;
+			font-style:normal;
+		}
+		.ez-led{
+			font-family : "LED";
+			font-size : 40px;
+			background : #70d355;
+			width: 300px;
+			height:60px;
+			line-height : 60px;
+			text-align : right;
+			padding : 10px;
+			letter-spacing:5px;
+		}
+	</style>
+</head>
+<body>
+	<!--定义容器-->
+	<div id="content"></div>
+
+	<!--声明脚本类型为JSX-->
+	<script type="text/jsx">
+
+		//定义React组件
+		var EzLedComp = React.createClass({
+			//每个React组件都应该事先render()方法
+			render : function(){
+				var e = 
+				
+					//JSX--> 
+					<div>
+						<div className="ez-led">Hello, React!</div>
+						<div className="ez-led">2015-04-15</div>
+					</div>;
+					//<--JSX
+
+				return e;
+			}
+		});
+		//渲染
+		React.render(
+			<EzLedComp/> , //JSX
+			document.querySelector("#content"));
+			
+	</script>
+</body>
+</html>
+
+使用JSX
+很显然，增加了这些XML语法的脚本不能再称为JavaScript了，使用上 略有区别。
+
+指定脚本类型
+在html文件中引入的JSX脚本，需要指定类型为text/jsx：
+
+//内联脚本
+<script type="text/jsx">...</script>
+//外部脚本
+<script src="a.js" type="text/jsx"></script>
+引入JSX语法转换库
+在html中使用JSX，还需要引入JSX语法转换库JSXTransform.js。 这个库加载后，将在DOM树构造完成后（通过监听DOMContentLoaded事件）处理 JSX脚本：
+
+1. 搜索DOM树中的script节点，如果其类型为text/jsx则进行后续处理
+2. 读取script节点的内容，将其转化为JavaScript代码
+3. 构造一个新的script元素，设置其内容为转化结果代码，并追加到DOM树head元素中
+JSXTransform.js引入后通过全局对象JSXTransformer提供了API接口， 我们可以使用transform()方法来模拟这个语法自动转换的过程。
+
+在右边的示例代码中，为了避免自动转换，我们将script元素的类型设置为text/jsx2， 同时为了简化DOM元素定位，给它加了一个id。
+
+点击按钮，你就可以看到转换结果。查看代码，理解自动转换的步骤。
+
+修改示例，将转换后的代码显示到页面上，看看是什么内容？
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>JSX Transform</title>
+	<!--引入React库-->
+	<script src="lib/react.min.js"></script>
+	<!--引入JSX转换库-->
+	<script src="lib/JSXTransformer.js"></script>
+	<!--组件样式-->
+	<style>
+		@font-face {
+			font-family:"LED";
+			src:url("font/LED.eot?") format("eot"),
+				url("font/LED.woff") format("woff"),
+				url("font/LED.ttf") format("truetype"),
+				url("font/LED.svg#LED") format("svg");
+			font-weight:normal;
+			font-style:normal;
+		}
+		.ez-led{
+			font-family : "LED";
+			font-size : 40px;
+			background : #70d355;
+			width: 300px;
+			height:60px;
+			line-height : 60px;
+			text-align : right;
+			padding : 10px;
+			letter-spacing:5px;
+		}
+	</style>
+</head>
+<body>
+	<!--定义容器-->
+	<div id="content">
+		<button onclick="transform();">模拟JSX自动处理过程</button>
+	</div>
+
+	<!--为避免自动转化，声明脚本类型为JSX2-->
+	<script type="text/jsx2" id="demo">
+
+		//定义React组件
+		var EzLedComp = React.createClass({
+			//每个React组件都应该事先render()方法
+			render : function(){
+				var e = 
+				
+					//JSX--> 
+					<div>
+						<div className="ez-led">Hello, React!</div>
+						<div className="ez-led">2015-04-15</div>
+					</div>;
+					//<--JSX
+
+				return e;
+			}
+		});
+		//渲染
+		React.render(
+			<EzLedComp/> , //JSX
+			document.querySelector("#content"));
+			
+	</script>
+	<script type="text/javascript">
+		//模拟JSX语法转换
+		var transform = function(){
+			var el = document.querySelector("#demo"),
+				//1.将原始JSX代码转换为JS代码
+				jsxt = JSXTransformer.transform(el.text);  
+
+			var headEl = document.querySelector("head"),
+				scriptEl = document.createElement("script");
+			
+			//2.设置新的script元素的内容为转换后的代码	
+			scriptEl.text = jsxt.code;
+			scriptEl.type = "text/javascript";
+			
+			//3.将新的script元素追加到文档head元素
+			headEl.appendChild(scriptEl);					
+		};
+	</script>
+</body>
+</html>
+
+
+属性 : props
+组件应该提供一些属性供开发者在不同的场景下可以对组件实例元素的行为 外观进行调整，这样可以提高组件的利用效率。
+
+在React中，使用props字段访问实例元素的属性。
+
+例如，在下面的JSX片段中，EzLampComp组件的实例元素有一个属性onoff：
+
+React.render(
+    <ezlampcomp onoff="off"></ezlampcomp> ,
+    document.querySelector("#content"));
+那么在EzLampComp组件的实现中，我们可以通过props字段访问这个属性， 并根据属性值设置其样式类。
+
+在JSX中，我们也可以将一个JavaScript表达式赋给React元素的属性，这时需要 使用一对大括号来代替引号：
+
+var myOnoff = "on";
+React.render(
+    <ezlampcomp onoff="{myOnoff}"></ezlampcomp>,
+    document.querySelector("#content"));
+如果你觉得不好理解，那么我们把上面的JSX代码转换成JavaScript：
+
+var myOnoff = "on";
+React.render(
+    React.createElement(
+        EzLampComp,
+        {
+            onoff : myOnoff
+        }),
+    document.querySelector("#content"));
+修改示例代码，让小灯1秒亮1秒暗的闪烁！ 提示：使用JavaScript表达式给属性赋值
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>ex15:EzLampComp</title>
+	<script src="lib/react.js"></script>
+	<script src="lib/JSXTransformer.js"></script>
+	<!--组件样式-->
+	<style>
+		.ez-lamp{
+			display : inline-block;
+			margin : 5px;
+			width : 30px;
+			height : 30px;
+			border-radius : 50%;
+		}
+		.ez-lamp.on{
+			opacity : 1;
+			background : -webkit-radial-gradient(30% 30%,white 5%,red 95%);
+		}
+		.ez-lamp.off{
+			opacity : 0.5;
+			background : -webkit-radial-gradient(30% 30%,#888 5%,red 95%);
+		}
+	</style>
+</head>
+<body>
+	<div id="content"></div>
+	<script type = "text/jsx">
+		//定义React组件
+		var EzLampComp = React.createClass({
+			render : function(){
+				//取得属性值
+				var onoff = this.props.onoff;
+
+				//返回React元素
+				if(onoff == "on")
+					return <span className = "ez-lamp on"></span>;  //JSX
+				else
+					return <span className = "ez-lamp off"></span>;  //JSX					
+			}
+		});
+		//渲染React元素
+		React.render(
+			<EzLampComp onoff="on"/> , //<--JSX
+			document.querySelector("#content"));
+	</script>
+</body>
+</html>
+
+
+
+内联样式
+在前面的示例中，每当需要设定元素的样式，我们总是使用样式类。但有时我们的确需要 直接在元素上声明内联样式，就像在HTML中一样：
+
+//HTML
+<div style="width:200px;height:200px;"></div>
+在React元素中声明样式，需要给出一个JSON对象，其字段对应样式名称，比如要渲染出 上面的HTML片段，需要这样：
+
+var myStyle = {
+    width:"200px",
+    height:"200px"
+};
+//JSX
+var e = <div style="{myStyle}"></div>;
+//JavaScript
+var e = React.createElement(
+    "div",{
+        style : myStyle
+    });
+//render
+React.render(e,...);    
+注意1 - 对应样式名称的字段，需要使用驼峰式命名
+比如：border-radius样式需要使用borderRadius来访问，而background-image 样式需要使用backgroundImage来访问。
+
+注意2 - 样式名称中的供应商前缀，除ms外都需要大写首字母
+对于供应商前缀（-webkit, -moz, -o, -ms），除了ms，其他都需要将首字母大写。 比如：-webkit-transition应当通过WebkitTransition来访问，然而-ms-transition 则需要通过msTransition来访问。
+
+给示例中的EzLampComp组件增加一个属性shape，支持两个值：rect和circle。 当shape属性的值为rect时，灯的形状为方形；当shape属性的值为circle时， 灯的形状为圆形。
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>ex15:EzLampComp</title>
+	<script src="lib/react.js"></script>
+	<script src="lib/JSXTransformer.js"></script>
+	<style>
+		.ez-lamp{
+			display : inline-block;
+			margin : 5px;
+			width : 30px;
+			height : 30px;
+		}
+	</style>
+</head>
+<body>
+	<div id="content"></div>
+	<script type = "text/jsx">
+		//定义React组件
+		var EzLampComp = React.createClass({
+			render : function(){
+				//取得属性值
+				var color = this.props.color,
+					onoff = this.props.onoff;
+				//亮光颜色
+				var lights = {
+					"off":"#888",
+					"on":"#fff"
+				};
+				//透明度
+				var opacity ={
+					"off":0.5,
+					"on":1.0
+				};
+				//根据属性设置附加的样式
+				var style = {
+					borderRadius : "50%",  //对应样式：border-radius
+					opacity : opacity[this.props.onoff], 
+					background : "-webkit-radial-gradient(30% 30%," + lights[onoff] + " 5%," + color +" 95%)"
+				};
+				//返回React元素
+				return <span className="ez-lamp" style={style}></span>;  //JSX
+			}
+		});
+		//渲染React元素
+		React.render(
+			//JSX-->
+			<div>
+				<EzLampComp color="green" onoff="off"/> 
+				<EzLampComp color="green" onoff="on"/> 
+				<EzLampComp color="red" onoff="off"/> 
+				<EzLampComp color="red" onoff="on"/> 
+				<EzLampComp color="blue" onoff="off"/> 
+				<EzLampComp color="blue" onoff="on"/> 
+			</div>
+			//<--JSX
+			,document.querySelector("#content"));
+	</script>
+</body>
+</html>
+
+
+状态记忆 : state
+很多情况下，组件实例的外观及行为通过使用props变量进行定制就可以了。 这样的组件我们称之为无状态/stateless的组件，因为在任何时刻，组件 实例的表现都仅仅取决于外部传入的props属性，与 它自身之前的表现毫无关系，即，它本身没有任何记忆。
+
+让一个组件拥有记忆能力，意味着它不仅能对外界的刺激产生反应（通过props 传入的数据、或用户的交互事件），也能根据自身的状态对同样的刺激做出 不同的反应。
+
+比如示例中的切换开关，它可以响应用户的点击事件，如果当前状态是关，那么它就 切换到开的状态（显示开状态的图片）；而如果当前状态是开，那么它就切换到关的 状态（显示关状态的图片）：
+
+switch
+
+现在思考一下，使用props可以实现这个切换开关吗？
+
+React的组件的确引入了状态机的概念，通过将组件划分为不同的状态，使组件具有 了一定的记忆能力：
+
+state - 组件的状态变量
+每个React组件实例都有一个state变量，用来保存组件的当前状态。可以在 任何时刻使用this.state读取当前状态。
+
+getInitialState() - 设置组件初始状态
+组件的实现者应当实现一个getInitialState()方法来设置组件的初始状态。 getInitialState()方法必须返回一个JSON对象或空值null， 这意味着即使你只需要一个简单的标志作为状态，比如true或false，也要把它放到JSON对象里。
+
+setState(currentState) - 设置组件当前状态
+尽管可以使用this.state来直接设置组件当前状态，但React要求我们使用 setState()方法来进行状态设置。这是因为，setState()方法会自动 地重新渲染组件，而这通常是我们所期望的。
+
+参数currentState是一个JSON对象，不必包含状态变量的所有字段，setState()方法会 将这个参数值与当前状态this.sate进行合并，结果作为状态变量的新值。
+
+假设示例中的开关的寿命只有5次，切换5次后就坏了，之后的点击不再切换并弹出警告框提示用户。 请修改示例代码实现这个需求！
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>EzSwitchComp</title>
+	<script src="lib/react.min.js"></script>
+	<script src="lib/JSXTransformer.js"></script>
+</head>
+<body>
+	<div id="content"></div>
+	<script type="text/jsx">
+		//组件定义
+		var EzSwitchComp = React.createClass({
+			//设置初始状态
+			getInitialState : function(){
+				return {on : false};
+			},
+			//处理点击事件，切换状态
+			onClick : function(){
+				//读取并重设状态，这将触发重新渲染
+				this.setState({on : !this.state.on});
+			},
+			render : function(){
+				//根据状态设置样式
+				img = this.state.on ? "img/switch-on.png" : img = "img/switch-off.png";
+				
+				//返回元素
+				return <img src = {img} style={{width:"150px"}} onClick={this.onClick}/>;
+			}
+		});
+		//渲染
+		React.render(
+			<EzSwitchComp/>,
+			document.querySelector("#content"));
+	</script>
+</body>
+</html>
+
+
+生命周期
+在组件实例的整个周期中，React将在特定的时间点调用以下方法：
+
+componentWillMount() - 组件实例即将挂接（初次渲染）时被调用
+这个方法在整个生命周期中只会被调用一次。
+
+componentDidMount() - 组件实例挂接（初次渲染）后被调用
+这个方法在整个生命周期中只会被调用一次。
+
+componentWillReceiveProps(nextProps) - 组件实例即将设置新属性时被调用
+参数nextProps表示即将应用到组件实例上的新属性值。
+
+这个方法在初次渲染时不会被调用。在此方法内调用setState()不会引起重新渲染。
+
+shouldComponentUpdate(nextProps, nextState) - 组件实例即将重新渲染时被调用
+参数nextProps传入即将应用到组件实例上的新属性值，参数nextState传入组件实例即将被 设置的状态值。如果这个方法返回false，那么组件实例就不会被重新渲染。除非我们明确地 知道，新的属性和状态不需要进行重新渲染，否则这个方法都应该返回true。
+
+这个方法在初次渲染时或通过forceUpdate()方法进行渲染时不会被调用。
+
+componentWillUpdate(nextProps, nextState) - 组件实例即将重新渲染时被调用
+这个方法在初次渲染时不会被调用。注意：不能在此方法内调用setState()。
+
+componentDidUpdate(prevProps, prevState) - 组件实例重新渲染后被调用
+这个方法在初次渲染时不会被调用。
+
+componentWillUnmount() - 组件实例即将从DOM树移除时被调用
+这个方法在整个生命周期中只会被调用一次。
+
+使用componentWillUpdate()方法修改示例代码，使时钟在秒为0时显示为红色字体！
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>EzDigiClockComp</title>
+	<script src="lib/react.min.js"></script>
+	<script src="lib/JSXTransformer.js"></script>
+	<!--组件样式-->
+	<style>
+		@font-face {
+			font-family:"LED";
+			src:url("font/LED.eot?") format("eot"),
+				url("font/LED.woff") format("woff"),
+				url("font/LED.ttf") format("truetype"),
+				url("font/LED.svg#LED") format("svg");
+			font-weight:normal;
+			font-style:normal;
+		}
+		.ez-digi-clock{
+			font-family : LED;
+			font-size : 40px;
+			background : #70d355;
+			width: 300px;
+			height:60px;
+			line-height : 60px;
+			text-align : right;
+			padding : 10px;
+			letter-spacing : 5px;
+		}	
+	</style>
+</head>
+<body>
+	<div id="content"></div>
+	<script type="text/jsx">
+		//获取并格式化当前时间
+		var _getTime =  function(){
+			var _=['00','01','02','03','04','05','06','07','08','09'],  //补零
+				d = new Date(),
+				h = d.getHours(),
+				m = d.getMinutes(),
+				s = d.getSeconds();
+			
+			return [_[h]||h,_[m]||m,_[s]||s].join(":");
+		};
+		//组件定义
+		var EzDigiClockComp = React.createClass({
+			//设置状态变量初始值
+			getInitialState : function(){
+				return {
+					time : _getTime()
+				};
+			},
+			//初次渲染后React执行此方法
+			componentDidMount : function(){
+				//设置定时器
+				this.timer = setInterval(function(){
+					this.setState({time:_getTime()});
+				}.bind(this),1000);
+			},
+			//即将从DOM树移除时执行此方法
+			componentWillUnmount : function(){
+				//删除定时器
+				clearInterval(this.timer);
+			},
+			render : function(){
+				return 	<div className="ez-digi-clock">
+							{this.state.time}
+						</div>;
+			}
+		});
+		//渲染
+		React.render(
+			<EzDigiClockComp />, 
+			document.querySelector("#content"));
+		
+	</script>
+</body>
+</html>
+
+
+访问DOM
+在React中，有时需要直接访问React元素对应的DOM对象，比如读取用户的输入。 这需要两个步骤：
+
+设置React元素的ref属性
+如果需要在代码中访问某个React元素的DOM对象，那么首先需要设置这个React 元素的ref属性。
+
+比如，我们需要读取文本输入框的值，那么首先给这个input元素指定ref属性：
+
+//JSX
+<input type="text" defaultvalue="beijing" ref="q" placeholder="请输入城市拼音，如：beijing">
+声明了React元素的ref属性之后，可以通过this.refs对象访问 这个组件，比如上面的示例中：this.refs.q指向input组件对象，你应该已经注意到， 我们为React元素设置的ref属性值，在这里被用为this.refs对象的键值。
+
+获得DOM对象
+在设置了React元素的ref属性后，可以使用React.findDOMNode()方法获得对应的 DOM对象：
+
+React.findDOMNode(component)
+参数component是一个React组件对象，如前所述，我们可以通过this.refs对象获得。
+
+如果React元素已经渲染到DOM树上，findDOMNode()方法将返回组件对象对应的DOM节 点对象，后续就可以使用标准的DOM API操作这个DOM对象了。
+
+右边的示例实现了一个简单的天气查询组件，在文本框中输入城市名称的拼音，点击按钮 就可以获得这个城市的当前天气信息。天气数据实时从openweathermap.org网站读取，所以 可能会慢点，也可能，失效:-(
+
+修改示例代码，在初次渲染后，让输入文本框自动获得焦点！提示：编写componentDidMount() 方法。
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>EzWeatherComp</title>
+	<script src="lib/jquery.min.js"></script>
+	<script src="lib/react.js"></script>
+	<script src="lib/JSXTransformer.js"></script>
+	<!--组件样式-->
+	<style>
+		.ez-weather{
+			background : black;
+			color:white;
+			padding:10px;
+		}
+		.ez-search{
+			display: flex;
+			flex-flow:row nowrap;		
+		}
+		.ez-search input{
+			flex : 1 0 auto;
+		}
+		.ez-search button{
+			width:100px;
+			margin:0px 10px;
+		}
+	</style>
+</head>
+<body>
+	<div id="content"></div>
+	<script type = "text/jsx">
+		//定义组件
+		var EzWeatherComp = React.createClass({
+			//设置初始状态
+			getInitialState : function(){
+				return {waiting:false};
+			},
+			//点击按钮时执行搜索
+			search : function(){
+				//使用FindDOMNOde()方法读取用户输入值
+				var el = React.findDOMNode(this.refs.q),
+					city = el.value;
+
+				//设置为等待状态
+				this.setState({waiting:true,info:null});
+					
+				//抓取天气数据。不知道这个API能用多久:-(
+				var url = ["http://api.openweathermap.org/data/2.5/weather?q=",
+							city,",China"].join("");							
+				$.ajax({
+					url:url,
+					dataType : "jsonp",//jsonp方式跨域读取
+					success:function(data){
+						//取消等待，设置天气数据
+						this.setState({waiting:false,info:data});
+					}.bind(this)   //bind()让函数体内的this指向组件实例
+				});
+			},
+			render : function(){
+				var waitingEl,infoEl;
+				
+				if(this.state.waiting) //是否需要显示等待动画？
+					waitingEl = <img src="img/waiting.gif"/>;
+				
+				if(this.state.info) //是否需要显示天气数据?
+					infoEl = <pre>
+								{JSON.stringify(this.state.info,null,"\t")}
+							</pre>;
+					
+				return 	<div className="ez-weather">
+							<div className="ez-search">
+								<input type="text" defaultValue="beijing" ref="q"
+									placeholder="请输入城市拼音，如：beijing"/>
+								<button onClick={this.search}>search</button>
+							</div>
+							{waitingEl}
+							{infoEl}
+						</div>;
+			}
+		});
+		//渲染
+		React.render(
+			<EzWeatherComp/>,
+			document.querySelector("#content"));
+
+	</script>
+</body>
+</html>
+
+
+表单输入
+在React中，表单输入元素如 input, textarea, option等，和其他标准的HTML元素 相比需要特殊的注意：
+
+文本输入框
+不要使用value属性设置文本输入框元素的初值，应当使用defaultValue：
+
+//JSX
+<input type="text" defaultvalue="demo">  
+复选按钮
+不要使用checked属性设置复选按钮的初始选中状态，应当使用defaultChecked：
+
+//JSX
+<input type="checkbox" defaultchecked=""> 
+单选按钮组
+不要使用option元素的selected属性设置单选按钮组的初始选中状态，应当使用 select元素的defaultValue：
+
+//JSX
+<select defaultvalue="A">
+    <option value="A">China</option>
+    <option value="B">India</option>
+    <option value="C">Japan</option>
+</select>
+在示例代码中添加一个要登入系统的选择框，使其看起来像这样：
+
+exercise
+可选的系统有：OA、财务、人力资源 。 默认选中人力资源。
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>EzLoginComp</title>
+	<script src="lib/react.min.js"></script>
+	<script src="lib/JSXTransformer.js"></script>
+</head>
+<body>
+	<div id="content"></div>
+	<script type="text/jsx">
+		//组件定义
+		var EzLoginComp = React.createClass({
+			auth : function(event){
+				var account = React.findDOMNode(this.refs.account).value,
+					pass = React.findDOMNode(this.refs.password).value;
+				alert([account,pass]);	
+					
+			},
+			render : function(){
+
+				return 	<div className = "ez-login">
+							<div className="row title">
+								<h1>登录</h1>
+							</div>
+							<div className="row account">
+								<label>用户</label>
+								<input type="text" defaultValue="Jason" ref="account"/>
+							</div>
+							<div className="row pass">
+								<label>密码</label>
+								<input type="text" ref="password"/>
+							</div>
+							<div className="row remember">
+								<input type="checkbox" defaultChecked/>
+								<span>记住密码</span>
+							</div>
+							<div className="row button">
+								<button onClick={this.auth}>登录</button>
+							</div>
+						</div>;
+			}
+		});
+		//渲染
+		React.render(<EzLoginComp/>,document.querySelector("#content"));
+	</script>
+</body>
+</html>

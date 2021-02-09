@@ -1,0 +1,1 @@
+http://cloudera.github.io/hue/latest/

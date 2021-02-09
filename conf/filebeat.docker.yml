@@ -1,0 +1,22 @@
+filebeat.inputs:
+- type: log
+  enabled: true
+  paths:
+    - /app/logs/*.log
+  tags: ["pmz","dev"]
+  fields:
+    app_id: job
+
+  fields_under_root: true
+
+  #ignore_older: 240h
+
+
+setup.kibana:
+  host: "kibana:5601"
+
+
+
+output.elasticsearch:
+  hosts: ["es:9200"]
+ 

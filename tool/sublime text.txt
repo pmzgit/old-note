@@ -1,0 +1,221 @@
+
+1.汉化 http://files.cnblogs.com/dolphin0520/sublime%E6%B1%89%E5%8C%96.rar
+
+ 1.运行sublime text 2；
+
+　　2.选择“preferences”—>“Browse packages”；
+
+　　3.找到文件夹“Default”，将解压得到的文件复制到“Default”文件夹下覆盖即可。
+
+2.控制台    https://packagecontrol.io/  插件库
+
+3.utf-8 gbk
+Package Control Messages
+========================
+
+ConvertToUTF8:
+-------------
+
+  ConvertToUTF8
+  ==================
+  With this plugin, you can edit and save the files which encodings are not supported by Sublime Text currently, especially for those used by CJK users, such as GB2312, GBK, BIG5, EUC-KR, EUC-JP, etc.
+
+  Configuration
+  ------------------
+  Please check ConvertToUTF8.sublime-settings file for details. You should save your personal settings in a file named "ConvertToUTF8.sublime-settings" under "User" folder.
+
+  * encoding_list: encoding selection list when detection is failed
+  * max_cache_size: maximum encoding cache size, 0 means no cache (default: 100)
+  * max_detect_lines: maximum detection lines, 0 means unlimited (default: 600)
+  * preview_action: converting the file's content to UTF-8 when previewing it (default: false)
+  * default_encoding_on_create: specific the default encoding for newly created file (such as "GBK"), empty value means using sublime text's "default_encoding" setting (default: '')
+  * convert_on_load: convert the file's content to UTF-8 when it is loaded (default: true)
+  * convert_on_save: convert the file's content from UTF-8 to its original (or specific) encoding when it is saved (default: true)
+  * convert_on_find: convert the text in Find Results view to UTF-8 (default: false)
+  * lazy_reload: save file to a temporary location, and reload it in background when switching to other windows or tabs (default: false)
+
+  Contact me
+  ------------------
+  Please send me your questions or suggestions: sunlxy (at) yahoo.com or http://weibo.com/seanliang
+
+  For more information, please visit: https://github.com/seanliang/ConvertToUTF8
+
+  4.jsFormat c+a+f   html-css-js prettify   (nodeJspath设置到node.exe)
+
+
+  5. theme- soda
+
+  用户设置：
+
+  {
+	"font_face": "courier new",
+	"font_size": 9.0,
+	"highlight_line": true,
+	"scroll_past_end": false,
+	"tab_size": 4,
+	"theme": "Soda Dark.sublime-theme",
+	"word_wrap": true,
+	"theme": "Soda Dark.sublime-theme"
+}
+
+  6. 快捷键
+Ctrl+Shift+P：打开命令面板
+Ctrl+P：搜索项目中的文件
+Ctrl+G：跳转到第几行
+Ctrl+W：关闭当前打开文件
+Ctrl+Shift+W：关闭所有打开文件
+Ctrl+Shift+V：粘贴并格式化
+Ctrl+D：选择单词，重复可增加选择下一个相同的单词
+Ctrl+L：选择行，重复可依次增加选择下一行
+Ctrl+Shift+L：选择多行
+Ctrl+Shift+Enter：在当前行前插入新行
+Ctrl+X：删除当前行
+Ctrl+M：跳转到对应括号
+Ctrl+U：软撤销，撤销光标位置
+Ctrl+J：选择标签内容
+Ctrl+F：查找内容
+Ctrl+Shift+F：查找并替换
+Ctrl+H：替换
+Ctrl+R：前往 method
+Ctrl+N：新建窗口
+Ctrl+K+B：开关侧栏
+Ctrl+Shift+M：选中当前括号内容，重复可选着括号本身
+Ctrl+F2：设置/删除标记
+Ctrl+/：注释当前行
+Ctrl+Shift+/：当前位置插入注释
+Ctrl+Alt+/：块注释，并Focus到首行，写注释说明用的
+Ctrl+Shift+A：选择当前标签前后，修改标签用的
+F11：全屏
+Shift+F11：全屏免打扰模式，只编辑当前文件
+Alt+F3：选择所有相同的词
+Alt+.：闭合标签
+Alt+Shift+数字：分屏显示
+Alt+数字：切换打开第N个文件
+Shift+右键拖动：光标多不，用来更改或插入列内容
+鼠标的前进后退键可切换Tab文件
+按Ctrl，依次点击或选取，可需要编辑的多个位置
+按Ctrl+Shift+上下键，可替换行
+
+插件emmet      http://emmet.io
+Emmet:
+-----
+
+  Thank you for installing Emmet -- a toolkit that can greatly improve your workflow. Note that this plugin automatically downloads and installs PyV8 binary (see status bar message).
+
+  ******************************
+  Please restart editor
+  to finish installation process
+  after PyV8 was downloaded.
+  ******************************
+
+  Tab key handler
+  ==========================
+
+  By default, Emmet allows you to expand abbreviations with Tab key in HTML, XML, HAML and CSS/SASS/LESS/Stylus documents. As a side effect, you can’t use some of your ST2 snippets.
+
+  Please read https://github.com/sergeche/emmet-sublime#tab-key-handler about how Tab handler works and how to tweak its behavior to match your needs.
+
+  Enter key
+  ==========================
+
+  In HTML and XML documents, Emmet overrides Enter key to insert formatted line breaks between opening and closing tags. In some cases it will break character input (for example, in Japanese language).
+
+  To disable Enter key handler, simply add the following option in your user's Preferences file:
+
+  "disable_formatted_linebreak": true
+
+  Actions shortcuts
+  ==========================
+
+  Emmet has a number of actions with keyboard shortcuts that may override ones you're using commonly (for example, Ctrl-E or Ctrl-Down). Please read the project main page to get list of available actions and keyboard shortcuts and how to disable them:
+  https://github.com/sergeche/emmet-sublime
+
+  Documentation and examples:
+  http://emmet.io
+
+  ------------------------------
+  Follow me on Twitter: @emmetio
+
+
+
+
+
+  8、Theme - Spacegray:
+-----------------
+
+  Thanks for installing Spacegray!
+
+
+  How to activate
+  ===============
+
+  Activate the UI theme and color scheme by modifying your user preferences file, which you can find using the menu item `Sublime Text -> Preferences -> Settings - User` (⌘+, on Mac).
+
+  Spacegray comes in different flavors, based on Base16 color schemes. You can choose whichever flavor you like, but don't forget to change *both* color scheme and UI theme so they match.
+
+  *Note: Don't forget to restart Sublime Text after activating the theme.*
+
+
+  Spacegray
+  ---------
+
+  Default flavor based on Base16 Ocean Dark color scheme.
+
+  *Example settings*
+
+      {
+        "theme": "Spacegray.sublime-theme",
+        "color_scheme": "Packages/Theme - Spacegray/base16-ocean.dark.tmTheme"
+      }
+
+
+  Spacegray Light
+  ---------------
+
+  Light variation based on Base16 Ocean Light color scheme.
+
+  *Example settings*
+
+      {
+        "theme": "Spacegray Light.sublime-theme",
+        "color_scheme": "Packages/Theme - Spacegray/base16-ocean.light.tmTheme"
+      }
+
+
+  Spacegray Eighties
+  ------------------
+
+  A variation based on Base16 Eighties Dark color scheme.
+
+  *Example settings*
+
+      {
+        "theme": "Spacegray Eighties.sublime-theme",
+        "color_scheme": "Packages/Theme - Spacegray/base16-eighties.dark.tmTheme"
+      }
+
+
+  *Note: Don't forget to restart Sublime Text after activating the theme.*
+
+  e
+
+
+9 markdown preview
+
+10 vim 模式 setting-user中删除  "Vintage"
+   启用 Ctrl 功能键及自定义功能键
+
+ 　　Preference->Setting User 添加如下内容:
+
+ 　　
+
+ "vintage_ctrl_keys": true
+   这样就支持以下命令了：　　
+
+Ctrl+[ : Esc键的别名
+Ctrl+R : Redo
+Ctrl+Y : 向下滚动一行
+Ctrl+E : 向上滚动一行
+Ctrl+F : 下一页
+Ctrl+B : 上一页
+11 http://yanhaijing.com/tool/2014/10/24/my-sublime/    颜海镜sublimenote

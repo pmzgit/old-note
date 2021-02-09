@@ -1,0 +1,248 @@
+﻿要是两个值类型不同，返回false
+要是两个值都是number类型，并且数值相同，返回true
+要是两个值都是stirng，并且两个值的String内容相同，返回true
+要是两个值都是true或者都是false，返回true
+要是两个值都是指向相同的Object，Array或者function，返回true
+要是两个值都是null或者都是undefined，返回true
+==操作符：
+如果两个值具有相同类型，会进行===比较，返回===的比较值
+如果两个值不具有相同类型，也有可能返回true
+如果一个值是null另一个值是undefined，返回true
+如果一个值是string另个是number，会把string转换成number再进行比较
+如果一个值是true，会把它转成1再比较，false会转成0
+如果一个值是Object，另一个是number或者string，会把Object利用 valueOf()或者toString()转换成原始类型再进行比较
+
+//“||”运算符的运算法则如下：
+
+
+new Date()接收毫秒和日期字符串，以及表示年，月（基于0），日，时（0-23），分（0-60），秒，毫秒（但是这基于本地时间，而不是GMT时间），返回对象。火狐只支持‘2/1/2015’或者‘英文月名 日，年’否则返回NaN。Date.parse()接收日期字符串Date.parse("2011-10-10T14:48:00")，或者日期对象。Date.now()返回调用该函数的时间毫秒数。
+默认情况下，Date对象返回的都是当前时区的时间。Date.UTC方法可以返回UTC时间（世界标准时间）。该方法接受年、月、日等变量作为参数，返回当前距离1970年1月1日 00:00:00 UTC的毫秒数。该方法的参数用法与Date构造函数完全一致，比如月从0开始计算。
+dateObj.toLocaleString()="2015/2/28 上午10:40:23" dateObj.toString()="Sat Feb 28 2015 10:40:23 GMT+0800 (中国标准时间)"。但是valueOf() getTime()方法返回日期的毫秒数。所以日期对象可以直接比较大小，因为强制转换，调用对象的valueOf（）方法。减法转换为数值，加法转换为字符串（utc）
+格式化方法：var testDate = new Date(2015,1,28,16,30,30,233);
+testDate.toDateString()="Sat Feb 28 2015"
+testDate.toTimeString()="16:30:30 GMT+0800"注意火狐和chrome不一样。
+testDate.toLocaleDateString()="2015/2/28"
+testDate.toLocaleTimeString()="下午4:30:30"
+即使字符串包含双字节字符，每个字符也仍算一个字符。字符串访问个别字符方法‘abc’[2]='c'
+数组的slice（）方法，不影响原数组，只是根据起始结束位置复制。如果为负数，用数组长度加上该数确定索引位置。splice（）会改变原数组1删除：splice（2,2）；2插入splice（2,0，‘red’，‘yellow’）；3替换splice（2,1，‘red’，‘yellow’）该方法返回删除项组成的数组，不删则为[]；
+字符串的切片方法有三个，slice()与substring（）相似，但是substr（）第二个参数代表个数。注意传入负数的时候不一样。且第二个参数可选。
+字符串访问索引的方法indexOf()和lastIndexOf（），还有第二个参数，就是开始查找指定字符的起始索引位置，而数组没有，但都是用全等操作。
+字符串的trim（）方法，返回的是副本。IE8以前注意用trimLeft（）timeRight（）方法。
+escape不编码字符有69个：*，+，-，.，/，@，_，0-9，a-z，A-Z
+
+encodeURI不编码字符有82个：!，#，$，&，'，(，)，*，+，,，-，.，/，:，;，=，?，@，_，~，0-9，a-z，A-Z
+
+encodeURIComponent不编码字符有71个：!， '，(，)，*，-，.，_，~，0-9，a-z，A-Z
+数组的sort（）自定义排序：一般会把数组的每个元素调用toString（）方法再进行比较，即使是数值。如果简单的自定义排序（元素为数值或者对象的valueOf（）方法返回的是数值，则可使用简单方法：function com(a,b){return a-b}升序，反序可以调用reverse（）方法）;如果是对对象排序（按照其中的某一个属性）：function comparestime(a,b)
+    {
+        if(a.ctime==0)
+        {
+            a.ctime=now;
+        }
+        if(b.ctime==0)
+        {
+            b.ctime=now;
+        }
+        return parseInt(a.ctime)-parseInt(b.ctime);
+    }
+两种方式使用in操作符：单独使用时，in在通过对象能够访问给定属性时返回true，无论属性在实例中还是原型中。，Object.keys()返回对象中所有可枚举的属性。而Object.getOwnPropertyNames(),无论是否可枚举都显示出来。都可用来替代for-in方法
+闭包的注意：闭包（匿名函数的一种特定意义）只能取得包含函数中任何变量的最终值。
+每个函数在被调用时，其活动对象就自动会获取两个特殊变量：this，arguments。内部函数在搜索这两个变量时，只会搜索其活动对象为止。因此永远也不可能直接访问外部函数中的这两个变量。因此要把外部作用域中的这两个变量保存在闭包能够访问的变量里。
+js用私有作用域（闭包）模仿其他语言的块级作用域。（function（）{
+	//这里可以定于变量，此函数执行完毕，则私有变量（用var声明）全部销毁
+
+}）（）
+实例中的指针总是指向原型(在更改原型前的实例)
+组合使用构造函数和原型模式是定义引用类型的一种默认模式
+寄生构造函数模式：适用为js标准引用类型更改或添加属性、或方法时使用的构造函数模式，因为这种方式不会破坏标准库的命名空间。同样无法用instanceof确定其应用类型，因为其本质还是同js已有引用类型相同。
+稳妥构造函数模式：适合定义对象拥有私有属性和方法的能力的实例。注意初始化时不用new操作符，并且在初始化时传入私有变量。
+继承
+组合继承：使用原型链实现对父对象原型属性和方法的继承，借用构造函数实现对父对象实例属性和方法的继承。注意这种机制利用了实例属性会覆盖原型中同名的属性和方法，即原型链搜索机制
+寄生组合式继承：
+
+javascript 作用域为函数作用域，并且是静态作用域，即作用域的嵌套关系，是在定义时确定的，而不是在运行时确定的。（词法分析：运行时环境）e.g：var scope = 'top'; var f1 = function(){console.log(scope)}; var f2 = function(){var scope = 'local'; f1()}; f2();  ‘top’。上下文对象可以说是静态作用域的补充。函数和对象的所属关系在调用时才体现出来。call和apply，可以改变函数执行的上下文。
+
+闭包：由函数（环境）及其封闭的自由变量（引用的变量，被复制成一份副本）组成的集合体
+用途1：嵌套回调函数2：实现私有成员（把一个对象用闭包封装起来，只返回一个访问器的对象）
+Object.observe方法用于观察对象属性的变化。
+var o = {};
+
+Object.observe(o, function(changes) {
+  changes.forEach(function(change) {
+    console.log(change.type, change.name, change.oldValue);
+  });
+});
+
+o.foo = 1; // add, 'foo', undefined
+o.foo = 2; // update, 'foo', 1
+delete o.foo; // delete, 'foo', 2
+
+
+使用attributes方法存取 data-* 自定义属性的值
+
+<div id = "user" uid = "12345" uname = "脚本之家" > </div>
+
+var user = document . getElementById ( 'user' ) ;
+var userName = user . getAttribute ( 'uname' ) ; // userName = '脚本之家'
+var userId = user . getAttribute ( 'uid' ) ; // userId = '12345'
+
+dataset属性存取data-*自定义属性的值
+
+这种方式通过访问一个元素的 dataset 属性来存取 data-* 自定义属性的值。这个 dataset 属性是HTML5 JavaScript API的一部分，用来返回一个所有选择元素 data- 属性的DOMStringMap对象。
+
+使用这种方法时，不是使用完整的属性名，如 data-uid 来存取数据，应该去掉data- 前缀。
+
+还有一点特别注意的是： data- 属性名如果包含了连字符，例如：data-date-of-birth ，连字符将被去掉，并转换为驼峰式的命名，前面的属性名转换后应该是： dateOfBirth
+
+// 使用setAttribute设置 data- 属性
+user . setAttribute ( 'site' , 'http://www.jb51.net' ) ;
+
+
+<div id="user" data-id="1234567890" data-name="脚本之家" data-date-of-birth>码头</div>
+<script type="text/javascript">
+var el = document.querySelector('#user');
+console.log(el.id); // 'user'
+console.log(el.dataset);//一个DOMStringMap
+console.log(el.dataset.id); // '1234567890'
+console.log(el.dataset.name); // '脚本之家'
+console.log(el.dataset.dateOfBirth); // ''
+el.dataset.dateOfBirth = '1985-01-05'; // 设置data-date-of-birth的值.
+console.log('someDataAttr' in el.dataset);//false
+el.dataset.someDataAttr = 'mydata';
+console.log('someDataAttr' in el.dataset);//true
+</script>
+
+如果你想删掉一个 data-属性 ，可以这么做： delete el . dataset . id ; 或者 el .dataset . id = null ; 。
+看起来很美，哈哈，但是不幸的是，新的 dataset 属性只有在Chrome 8+ Firefox(Gecko) 6.0+ Internet Explorer 11+ Opera 11.10+ Safari 6+浏览器中实现，所以在此期间最好用的getAttribute和setAttribute来操作。
+
+data-属性选择器同样适用于 js和css  '[data-text-colour="red"]'
+
+
+
+\
+
+与搜索和替换相关的有4个方法，它们都允许使用正则表达式。
+
+match：用于确定原字符串是否匹配某个子字符串，返回匹配的子字符串数组。
+var matches = "cat, bat, sat, fat".match("at");
+
+matches // ["at"]
+matches.index // 1
+matches.input // "cat, bat, sat, fat"
+search：等同于match，但是返回值不一样。
+"cat, bat, sat, fat".search("at")
+// 1
+replace：用于替换匹配的字符串。
+replace方法用于替换匹配的子字符串，一般情况下只替换第一个匹配（除非使用带有g修饰符的正则表达式）。
+
+"aaa".replace("a", "b")
+// "baa"
+
+window.open('http://www.sina.com','_blank');
+这句代码的实际意思是把一个连接在一个指定的框架（frame）内打开，_self
+
+,_top,_blank,这些是专有的框架名。
+
+既然是表示浏览器的窗口，那就一定包含：
+
+◆新建窗口（window.open()），
+
+◆关闭窗口(window.close())，
+
+◆改变窗口位置(resizeBy(),resizeTo())，
+
+◆移动窗口（moveBy(),moveTo），
+
+还有一些其固有的特性，比如：
+
+◆打开新的连接，并可以指定打开方式
+
+◆弹出系统对话框(alert(),confirm(),prompt())，
+
+◆设置超时与暂停（setTimeout(),setInterval())，
+
+◆状态栏，
+
+
+然后再说一说让人迷惑的几个东东，parent,self,top,opener,，怎么样可区分清楚么？
+
+其中self总是等于window，仅是名字不一样而已，不过正是由于这个特点，使用它可以使我们的代码更易于阅读，而top对象和parent对象，本人认为，只有在多框架(frames)下才会被用到，top对象指向最顶层的框架，也就是当一个页面使用了frame或iframe时，才会被用到。最后opener用于window.open()打开的子窗口。
+
+document是一个既属于BOM又属于DOM的对象，而location对象，则是一个既属于window，又属于document的属性。从BOM的角度来看，document对象中包含了页面中一些通用的属性和集合，不过document中的很多属性(alinkColor,bgColor,fgColor,linkColor,vlinkColor)是可以通过css控制的，所以我的建议是能使用css控制的尽量使用css,而剩下的属性(lastModifie
+
+d,referrer,title,URL),基本上没有多大的用处，要说有用的，我认为只有referrer可能有点用，它可以告诉你用户是怎么访问到你的页面的。其实document的主要作用是用于DOM。
+
+location对象表示载入窗口的URL，同时还可以用于解析URL，比如要获得GET请求后的参数可以使用
+
+location.search
+
+简而言之，如果浏览器加载并执行脚本，会引起页面的渲染被暂停，甚至还会阻塞其他资源(比如图片)的加载。为了更快的给用户呈现网页内容，
+
+
+// The .bind method from Prototype.js
+Function.prototype.bind = function(){
+var fn = this, args = Array.prototype.slice.call(arguments), object = args.shift();
+return function(){
+return fn.apply(object,
+args.concat(Array.prototype.slice.call(arguments)));
+};
+};
+对于那些不支持bind方法的老式浏览器，可以自行定义bind方法。
+
+if(!('bind' in Function.prototype)){
+    Function.prototype.bind = function(){
+        var fn = this;
+        var context = arguments[0];
+        var args = Array.prototype.slice.call(arguments, 1);
+        return function(){
+            return fn.apply(context, args);
+        }
+    }
+}
+
+== Object.keys();可枚举，自身    Object.getOwnPropertyNames() 自身所有
+Object.create(原型)继承   实例对象.hasOwnProperty("name"); 判断是否为自己的属性 ===
+
+判断一个对象是否具有某个属性(忽略不可枚举)（不管是自身的还是继承的），使用in运算符。 for in
+
+
+获得对象的所有属性（不管是自身的还是继承的，以及是否可枚举），可以使用下面的函数。
+
+function inheritedPropertyNames(obj) {
+  var props = {};
+  while(obj) {
+    Object.getOwnPropertyNames(obj).forEach(function(p) {
+      props[p] = true;
+    });
+    obj = Object.getPrototypeOf(obj);
+  }
+  return Object.getOwnPropertyNames(props);
+}
+用法如下：
+
+inheritedPropertyNames(Date)
+// ["caller", "constructor", "toString", "UTC", "call", "parse", "prototype", "__defineSetter__", "__lookupSetter__", "length", "arguments", "bind", "__lookupGetter__", "isPrototypeOf", "toLocaleString", "propertyIsEnumerable", "valueOf", "apply", "__defineGetter__", "name", "now", "hasOwnProperty"]
+
+function getWeekNumber(y, m, d) {
+    var targetDay = new Date(y, m - 1, d);
+    var year = targetDay.getFullYear();
+    var month = targetDay.getMonth();
+    var days = targetDay.getDate();
+    //那一天是那一年中的第多少天
+    for (var i = 1; i < m; i++) {
+        days += getMonthDays(year, i);
+    }
+    //那一年第一天是星期几
+    var yearFirstDay = new Date(year, 0, 1).getDay();
+    //计算是第几周
+    days += yearFirstDay;
+    var week = Math.ceil(days / 7);
+    return week;
+}
+
+1. 北京移动服务说明修改，绑定页面按钮往上挪，上网控制发短信20s
+2. 新app分析页面，包括今天，本周，本月
+3. ios 新需求调研
+
+
+

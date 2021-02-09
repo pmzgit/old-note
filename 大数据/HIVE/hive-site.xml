@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl" ?>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<configuration>
+
+  <property>
+    <name>javax.jdo.option.ConnectionURL</name>
+    <value>jdbc:mysql://192.168.205.235:3307/hive?createDatabaseIfNotExist=true&amp;useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8</value>
+  </property>
+  <property>
+    <name>javax.jdo.option.ConnectionDriverName</name>
+    <value>com.mysql.jdbc.Driver</value>
+  </property>
+  <property>
+    <name>javax.jdo.option.ConnectionUserName</name>
+    <value>root</value>
+  </property>
+  <property>
+    <name>javax.jdo.option.ConnectionPassword</name>
+    <value>pwd</value>
+  </property>
+  <property>
+    <name>hive.metastore.warehouse.dir</name>
+    <value>/user/hive/warehouse</value>
+    <description>hive default warehouse, if nessecory, change it</description>
+  </property>
+  <property>
+    <name>hive.metastore.client.socket.timeout</name>
+    <value>600s</value>
+    <description>
+      Expects a time value with unit (d/day, h/hour, m/min, s/sec, ms/msec, us/usec, ns/nsec), which is sec if not specified.
+      MetaStore Client socket timeout in seconds
+    </description>
+  </property>
+  <!-- hive查询时输出列名 -->
+  <property>
+    <name>hive.cli.print.header</name>
+    <value>true</value>
+  </property>
+  <!-- 显示当前数据库名 -->
+  <property>
+    <name>hive.cli.print.current.db</name>
+    <value>true</value>
+  </property>
+  <!-- <property>
+    <name>hive.metastore.uris</name>
+    <value>thrift://192.168.20.101:9083</value>
+    <description>IP address (or fully-qualified domain name) and port of the metastore host</description>
+  </property> -->
+  <property>
+    <name>hive.exec.scratchdir</name>
+    <value>/tmp/hive</value>
+    <description>
+      HDFS root scratch dir for Hive jobs which gets created with write all (733) permission. For each connecting user, an HDFS scratch dir: ${hive.exec.scratchdir}/
+      username is created, with ${hive.scratch.dir.permission}.
+    </description>
+  </property>
+  <property>
+    <name>hive.exec.local.scratchdir</name>
+    <value>/tmp/hive</value>
+    <description>Local scratch space for Hive jobs</description>
+  </property>
+  <property>
+    <name>hive.downloaded.resources.dir</name>
+    <value>/tmp/hive/${hive.session.id}_resources</value>
+    <description>Temporary local directory for added resources in the remote file system.</description>
+  </property>
+  <property>
+    <name>hive.scratch.dir.permission</name>
+    <value>733</value>
+    <description>The permission for the user specific scratch directories that get created.</description>
+  </property>
+  <property>
+    <name>hive.exec.compress.output</name>
+    <value>true</value>
+    <description>
+      This controls whether the final outputs of a query (to a local/HDFS file or a Hive table) is compressed. 
+      The compression codec and other options are determined from Hadoop config variables mapred.output.compress*
+    </description>
+  </property>
+  <property>
+    <name>hive.exec.compress.intermediate</name>
+    <value>true</value>
+    <description>
+      This controls whether intermediate files produced by Hive between multiple map-reduce jobs are compressed. 
+      The compression codec and other options are determined from Hadoop config variables mapred.output.compress*
+    </description>
+  </property>
+
+</configuration>
