@@ -58,6 +58,24 @@ nvidia-smi
 /boot 分区 200m ext4 格式  
 swap 分区，物理2倍
 
+## 内核管理
+```sh
+dpkg -l | grep "linux-image\|linux-header"
+
+#安装LTS内核
+
+sudo apt install linux-image-deepin-amd64 linux-headers-deepin-amd64
+
+#安装stable内核
+
+sudo apt install linux-image-deepin-stable-amd64 linux-headers-deepin-stable-amd64
+
+sudo apt purge linux-image-5.10.18-amd64-desktop linux-headers-5.10.18-amd64-desktop
+
+# 开源维护桌面内核
+https://xanmod.org/
+```
+
 ### 自动时间同步
 ## 切换2D模式
 * `Super + Shift + Tab`

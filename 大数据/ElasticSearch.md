@@ -1350,6 +1350,27 @@ GET /product_index/product/_search
   }
 }
 
+# query_string
+
+{
+	"query": {
+		"query_string": {
+			"default_field": "db_id",
+			"query": "10118114"
+		}
+	},
+	"size": 100,
+	"from": 0,
+	"sort": [
+		{
+			"icp_test_time": {
+				"unmapped_type": "keyword",
+				"order": "asc"
+			}
+		}
+	]
+}
+
 bool 查询
 https://www.elastic.co/guide/en/elasticsearch/reference/current/query-filter-context.html
 https://www.elastic.co/guide/en/elasticsearch/reference/7.1/query-dsl-boosting-query.html

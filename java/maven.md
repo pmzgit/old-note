@@ -1,7 +1,7 @@
-# maven
+# [maven](http://mvnbook.com/index.html)
 ## 1. features
 * 构建工具build  
-* 依赖管理dependencies  
+* 依赖管理dependencies/快照依赖 
 * 配置管理SCMs
 * 发布管理Releases  
 * 文档编制Documentation  
@@ -59,7 +59,7 @@ mvn clean dependency:copy-dependencies package
 
 * http://maven.apache.org/ref/3.6.0/maven-core/lifecycles.html
 * https://lixh1986.iteye.com/blog/2383960
-### 传递性依赖：scope 依赖的范围
+### 构建时会编译三套 ClassPath，分别对应：编译期，运行期，测试期，而 ClassPath 是个逻辑概念，指定所依赖 Jar 的可见性。
 * 编译范围（compile）
 * 已提供范围（provided）
 * 运行时范围（runtime）
@@ -128,6 +128,7 @@ mvn help:describe -Dplugin=
 
 https://www.cnblogs.com/takemybreathaway/articles/10677228.html
 
+## 处理版本冲突
 ```
 处理jar包依赖冲突,首先,对于多个jar包都引用同一jar包的情况,最好是在程序中显式定义被共同引用的jar包的依赖,来统一版本号,方便维护
 
@@ -251,6 +252,10 @@ mvn install:install-file -Dfile=lib/jmxtools-1.2.1.jar -DgroupId=com.sun.jdmk -D
 <!-- 本例中： lib/com/rabbitmq/client/3.5.0/rabbitmq-client-3.5.0.jar -->
 ```
 ### nexus私服配置
+
+#### 依赖搜索顺序
+本地-中央-远程私服
+
 * [nexux 使用 ](http://blog.csdn.net/huxu981598436/article/details/54945589)
 ```xml
 <!-- 私服的配置推荐用profile配置而不是mirror（毕竟mirror是镜像，私服其实是n个镜像及自己的开发库等的合集） -->
@@ -541,14 +546,14 @@ Maven 解析 pom.xml 文件时，同一个 jar 包只会保留一个，这样有
 
 Maven 默认处理策略
 最短路径优先
-Maven 面对 D1 和 D2 时，会默认选择最短路径的那个 jar 包，即 D2。E->F->D2 比 A->B->C->D1 路径短 1。
+Maven 面对 D1 和 D2 时，会默认选择最短路径的那个 jar 包，即 D2。E->F->D2 比 A->B->C->D1 路径短。
 
 最先声明优先
 如果路径一样的话，举个�： A->B->C1, E->F->C2 ，两个依赖路径长度都是 2，那么就选择最先声明。
 
 移除依赖
-如果我们不想通过 A->B->->D1 引入 D1 的话，那么我们在声明引入 A 的时候将 D1 排除掉，这样也避免了包冲突。
-举个�：将 zookeeper 的 jline 依赖排除 用exclusions标签
+如果我们不想通过 A->B->D1 引入 D1 的话，那么我们在声明引入 A 的时候将 D1 排除掉，这样也避免了包冲突。
+举个：将 zookeeper 的 jline 依赖排除 用exclusions标签
 
 
 ### [maven 执行主类](https://www.jianshu.com/p/ad83c9d53ec4)

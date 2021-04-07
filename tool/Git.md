@@ -374,7 +374,12 @@ git@github.com:pmzgit/note.git
 
 git commit -m "waf 模块前后端联调" --no-verify
 
-# fork
+
+# git 凭证存储
+git config --global credential.helper store
+
+# fork 
+[远程跟踪分支](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF)
 https://www.jianshu.com/p/d73dcee2d907
 https://www.jianshu.com/p/4f4c04c6e98b
 ```sh
@@ -387,8 +392,8 @@ git branch --set-upstream-to=origin/dev-20.07.01 dev-20.07.01
 git push -u origin dev-20.07.01
 git pull origin dev:dev
 
-# 创建并拉取想要的远端分支代码
-git branch -a
+# 创建并拉取想要的远端分支代码 
+git branch -avv
 git checkout -t origin/daily/1.4.1
 
 git remote -v
@@ -406,9 +411,17 @@ git push origin dev-20.11.01:dev-20.11.01 #将本地仓库dev分支的代码推�
 git remote set-url origin https://github.com/pmzgit/life.git   
 git remote rm <主机名>
 建立追踪关系，在现有分支与指定的远程分支之间
-$ git branch --set-upstream [branch] [remote-branch] 
+git branch -u [remote-branch] 
+git checkout -b serverfix origin/serverfix
 git pull <远程主机名> <远程分支名>:<本地分支名>
 git push <远程主机名> <本地分支名>:<远程分支名>
+
+# 删除远程分支
+git push origin --delete serverfix
+
+# 本地分支重命名
+git branch -m <new_name>
 ```
+
 
 
