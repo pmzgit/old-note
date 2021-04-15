@@ -1,9 +1,37 @@
-## 总览
+# 并发总览
+
+## 线程安全-互斥
+
+* [原子性](https://lotabout.me/2020/Java-Concurrency-0-Shared-Mutable-State/)：lock
+* 可见性、顺序性规则： java 内存模型、cas
+
+## 线程同步-通信
+* 管程： 同步锁，lock+condition
+
+## 任务调度-分工
+* 线程池：生产者消费者的并行实现
+* 
+## 设计模式
+
+## 并发编程模型
+### 进程交互
+* 共享内存
+* 消息传递
+  * [akka](https://akka.io/)
+  * [go-csp](https://time.geekbang.org/column/article/100098)
 * [并行编程模型分类-wiki](https://zh.wikipedia.org/wiki/%E5%B9%B6%E8%A1%8C%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B)
 * [四种并发编程模型](https://sq.163yun.com/blog/article/192782824730734592?tag=M_tg_139_65)
 * [多线程并发实践](https://juejin.im/post/59c4ba6f5188254f962cc934)
 * javap -verbose java.class
 * 并发编程有多种风格，除了CSP(通信顺序进程)、Actor等模型外，大家最熟悉的应该是基于线程和锁的共享内存模型了。
+
+## 反应式编程-Reactive Stream
+* 数据结构-数据流（批量，拉）or事件（单一，推）
+* 生产者-消费者模式的特性： 解耦，异步非阻塞，平衡线程间或进程间的数据处理速度差异（有利于创建适量的线程数），支持批量执行以提升性能，支持分阶段提交以提升性能，契合发布-订阅模式
+* 观察者模式：对象一对多的依赖关系
+* Reactive Stream 在某些方面是迭代器模式和观察者模式的结合，同时存在数据的 pull 和 push。订阅者先请求 N 个项目，然后发布者推送最多 N 个项目给订阅者。
+* Java 8 引入了 Stream 用于流的操作，Java 9 引入的 Flow 也是数据流的操作。相比之下，Stream 更侧重于流的过滤、映射、整合、收集，而 Flow 更侧重于流的产生与消费。
+
 ## [进程和线程之由来](http://www.cnblogs.com/dolphin0520/p/3910667.html)
 * 进程让操作系统的并发性成为可能，而线程让进程的内部并发成为可能。
 * 一个进程虽然包括多个线程，但是这些线程是共同享有进程占有的资源和地址空间的。进程是操作系统进行资源分配的基本单位，而线程是操作系统进行调度的基本单位。
@@ -159,5 +187,6 @@ Callable：在call()方法里完成任务，有返回值，且可能抛出异常
 ## 线程数
 CPU密集型： CPU 核数 + 1  
 IO密集型： 线程数 = CPU 核心数 * (1+ IO 耗时/CPU 耗时) 
+
 
 

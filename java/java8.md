@@ -77,13 +77,16 @@
 ```sh
 Lambda表达式的语法如下：
 (parameters) -> { statements; }
+# 编译器支持类型推断：省略参数类型
 ```
 * 仅有一个抽象方法的接口称为函数式接口
 * 以Lambda表达式的方式为函数式接口提供实现。所以可以认为：整个Lambda表达式作为接口的实现类
-* 方法引用是Lambda表达式的简便写法.如果你的Lambda表达式只是调用一个方法，最好使用名称调用，而不是描述如何调用，这样可以提高代码的可读性。方法引用使用::分隔符，分隔符的前半部分表示引用类型，后面半部分表示引用的方法名称。例如：Integer::compareTo表示引用类型为Integer，引用名称为compareTo的方法。
+* **方法（类方法or实例方法）引用**，或者**构造器引用**是Lambda表达式的简便写法.如果你的Lambda表达式只是调用一个方法，最好使用名称调用，而不是描述如何调用，这样可以提高代码的可读性。方法引用使用::分隔符，分隔符的前半部分表示引用类型，后面半部分表示引用的方法名称。例如：Integer::compareTo表示引用类型为Integer，引用名称为compareTo的方法。
 
 ### why
-你可以使用Lambda表达式来重构你的代码，提高代码可读性；使用行为参数化来设计你的程序，让程序更灵活。
+* 你可以使用Lambda表达式来重构你的代码，提高代码可读性；使用行为参数化来设计你的程序，让程序更灵活。
+
+* Lambda表达式被封装成了主类的一个私有方法，并通过invokedynamic指令进行调用，在Lambda表达式中this的意义跟在表达式外部完全一样
 
 ## [Stream API](https://lw900925.github.io/java/java8-stream-api.html)
 
@@ -109,5 +112,9 @@ stream.forEach(System.out::println); // 这里会抛出java.lang.IllegalStateExc
 * 流创建后，中间操作的时候，可以更改数据源，但执行终点操作的时候,不应该更改数据源。
 * 大部分流的操作的参数都是函数式接口,所以Lambda表达式的主体实现应该是无状态的，否则在多线程环境下执行的结果是不确定的。
 * 副作用指的是行为参数(Lambda 表达式)在执行的时候有输入输入，比如网络输入输出等。这是因为Java不保证这些副作用对其它线程可见，也不保证相同流管道上的同样的元素的不同的操作运行在同一个线程中。
+
+* why：集合(数组、容器等，但不能是map)->stream-> 集合或单个值或map（reduce 或 collect）https://www.cnblogs.com/CarpenterLee/p/6550212.html
+
+
 ## [Optional类](https://lw900925.github.io/java/java8-optional.html)
 ## [新的时间和日期API](https://lw900925.github.io/java/java8-newtime-api.html)

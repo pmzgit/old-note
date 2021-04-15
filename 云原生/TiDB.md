@@ -1,0 +1,1 @@
+https://docs.pingcap.com/zh/tidb/stable/release-5.0.0

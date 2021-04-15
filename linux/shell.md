@@ -1249,6 +1249,7 @@ date -d "-1 year " +%Y-%m-%d
 date -d "-1 week " +%Y-%m-%d
 date -d "+1 week " +%Y-%m-%d
 * 时间同步  
+sudo apt install ntpdate
 `ntpdate -u ntp.api.bz`  
 ntp.aliyun.com
 date -s 01/03/2017  
@@ -1452,7 +1453,7 @@ rsync -rvl test hadoop202:~
 netstat -lnp|grep 873
 
 ## tr
-tr 命令用于转换或删除文件中的字符
+tr 命令用于转换或���除文件中的字符
 tr 指令从标准输入设备读取数据，经过字符串转译后，将结果输出到标准输出设备。
 
 

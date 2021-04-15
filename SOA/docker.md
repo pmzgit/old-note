@@ -179,7 +179,7 @@ docker run image cmd arg
 run 命令，跟在镜像名后面的是 command，运行时会替换 CMD 的默认值。
 
 当存在 ENTRYPOINT 后，CMD（command 就是新的cmd） 的内容将会作为参数传给 ENTRYPOINT
-
+(隐含的值：/bin/sh -c)
 可以使用环境变量的原因，因为这些环境变量会被 shell 进行解析处理
 
 这些准备工作是和容器 CMD 无关的，无论 CMD 为什么，都需要事先进行一个预处理的工作。这种情况下，可以写一个脚本，然后放入 ENTRYPOINT 中去执行，而这个脚本会将接到的参数（也就是 <CMD>）作为命令，在脚本最后执行。

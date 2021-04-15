@@ -5,7 +5,7 @@
 [apt](https://www.sysgeek.cn/apt-vs-apt-get/)
 ```sh
 apt-get clean  删除所有已下载的包文件
-
+ll /var/cache/apt/archives/  
 apt-get autoclean   删除已下载的旧包文件
 apt autoremove
 sudo apt purge
@@ -14,6 +14,12 @@ apt show virtualbox
 sudo apt full-upgrade
 apt-cache show libc6
 sudo apt-get install neofetch
+
+
+
+sudo cat -n /var/lib/dpkg/status | grep "Package: screen" -A10
+sudo rm /var/lib/dpkg/info/<package name>.*
+
 ```
 [添加扩展源](https://niconiconi.fun/2018/12/31/debian-add-official-extension-source/)
 
