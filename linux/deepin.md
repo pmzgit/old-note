@@ -230,6 +230,9 @@ flatpak run com.github.hluk.copyq
 * `apt-cache search libappindicator3`
 * `apt-get install libappindicator3-1`
 
+## 免费翻墙
+* https://github.com/freefq/free
+
 ### atom
 * 商店
 
