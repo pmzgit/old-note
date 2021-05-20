@@ -459,6 +459,8 @@ sudo nginx -t -c /etc/nginx/nginx.conf
 ```
 * 不能用vbs 脚本？那我安装它干嘛。。。。。
 
+### [finalshell](http://www.hostbuf.com/)
+
 ### [微信web开发](https://github.com/cytle/wechat_web_devtools) 
 * [安装wine](https://wiki.deepin.org/index.php?title=Wine)
 * [参考教程](https://www.cnblogs.com/cisum/p/7810346.html)
