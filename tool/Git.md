@@ -30,8 +30,7 @@ sudo apt-get remove git
 
 https://mirrors.edge.kernel.org/pub/software/scm/git/
 
-sudo apt-get install dh-autoreconf libcurl4-gnutls-dev libexpat1-dev \
-  gettext libz-dev libssl-dev install install-info
+sudo apt-get install dh-autoreconf libcurl4-gnutls-dev libexpat1-dev gettext libz-dev libssl-dev install-info
 ## 为了添加文档的多种格式（doc、html、info），需要以下附加的依赖
 sudo apt-get install asciidoc xmlto docbook2x
 
