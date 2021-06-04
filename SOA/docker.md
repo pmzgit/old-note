@@ -1366,6 +1366,33 @@ volumes:
 
 networks:
   db_net:
+
+
+
+
+version: '3.2'
+services:
+  zookeeper:
+    image: freakchicken/kafka-ui-lite
+    ports:
+      - "8889:8889"
+    deploy:
+      replicas: 1
+      placement:
+        constraints: ["node.hostname == manager"]  
+    volumes:
+      - zk_data_1:/data
+      - zk_dataLog_1:/datalog
+    networks:
+      - kafka-net
+
+volumes:
+  kafka_logs_1:
+  zk_data_1:
+  zk_dataLog_1:
+
+networks:
+    kafka-net:      
 ```
 
 ## docker system df -v
